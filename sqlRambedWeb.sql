@@ -72,17 +72,17 @@ CREATE TABLE variante_venta (
 );
 
 -- poner estos valores en los pagos: 'Aprobado', 'Rechazado'
-CREATE TABLE pagos (
-    idPago INT PRIMARY KEY AUTO_INCREMENT,
-    idVenta INT NOT NULL,
-    monto DECIMAL(10, 2) NOT NULL,
-    metodoPago VARCHAR(50) NOT NULL,
-    estadoTransaccion VARCHAR(50) NOT NULL, 
-    idTransaccionPasarela VARCHAR(100), -- este los traemos del MERCADOPAGO
-    
-   
-    CONSTRAINT fk_PagosVenta FOREIGN KEY (idVenta) REFERENCES venta(idVenta)
-);
+	CREATE TABLE pagos (
+		idPago INT PRIMARY KEY AUTO_INCREMENT,
+		idVenta INT NOT NULL,
+		monto DECIMAL(10, 2) NOT NULL,
+		metodoPago VARCHAR(50) NOT NULL,
+		estadoTransaccion VARCHAR(50) NOT NULL, 
+		idTransaccionPasarela VARCHAR(100), -- este los traemos del MERCADOPAGO
+		
+	   
+		CONSTRAINT fk_PagosVenta FOREIGN KEY (idVenta) REFERENCES venta(idVenta)
+	);
 
 
 
