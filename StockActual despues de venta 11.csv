@@ -1,0 +1,25 @@
+idVariante;idReferencia;nombreReferencia;nombreTalla;color;cantidadStock
+1;2501;Jean Clásico Azul;28;azulOscuro;2
+2;2501;Jean Clásico Azul;30;azulOscuro;5
+3;2501;Jean Clásico Azul;32;azulOscuro;2
+4;2501;Jean Clásico Azul;34;azulOscuro;4
+5;2502;Jean Slim Oscuro;30;azulMedio;1
+6;2502;Jean Slim Oscuro;32;azulMedio;3
+7;2502;Jean Slim Oscuro;34;azulMedio;5
+8;2502;Jean Slim Oscuro;36;azulMedio;2
+9;2503;Jean Cargo Urbano;32;negro;4
+10;2503;Jean Cargo Urbano;34;negro;3
+11;2503;Jean Cargo Urbano;36;negro;3
+12;2503;Jean Cargo Urbano;40;negro;5
+13;2504;Jean Skinny Negro;28;gris;2
+14;2504;Jean Skinny Negro;30;gris;4
+15;2504;Jean Skinny Negro;32;gris;1
+16;2504;Jean Skinny Negro;34;gris;3
+17;2505;Jean Regular Stone;30;azulPetro;5
+18;2505;Jean Regular Stone;32;azulPetro;2
+19;2505;Jean Regular Stone;34;azulPetro;4
+20;2505;Jean Regular Stone;36;azulPetro;1
+21;2506;Jean Oversize Claro;32;dirty;3
+22;2506;Jean Oversize Claro;34;dirty;5
+23;2506;Jean Oversize Claro;36;dirty;2
+24;2506;Jean Oversize Claro;40;dirty;4

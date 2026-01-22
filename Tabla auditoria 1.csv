@@ -1,0 +1,2 @@
+idAuditoria;idVariante;tipoMovimiento;cantidad;stockAntes;stockDespues;referencia;fechaMovimiento
+1;10;ajuste;5;0;5;Ajuste manual de inventario;22/01/2026 16:36

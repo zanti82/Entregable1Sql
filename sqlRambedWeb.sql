@@ -1,5 +1,5 @@
-CREATE DATABASE if not exists RAMBED_ECOMMERCE;
-USE RAMBED_ECOMMERCE;
+CREATE DATABASE if not exists rambed_Ecommerce;
+USE rambed_Ecommerce;
 
 CREATE TABLE clientes (
     idCliente INT PRIMARY KEY,
@@ -25,9 +25,8 @@ CREATE TABLE colores (
 CREATE TABLE referencias (
     idReferencia INT PRIMARY KEY,
     nombreReferencia VARCHAR(100) NOT NULL,
-    estiloReferencia VARCHAR(50), 
-    precioReferencia DECIMAL(10, 2) NOT NULL 
-);
+    estiloReferencia VARCHAR(50)
+   );
 
 CREATE TABLE variantes (
 	idVariante INT PRIMARY KEY AUTO_INCREMENT,
@@ -47,12 +46,13 @@ CREATE TABLE inventario (
     CONSTRAINT fk_InventarioVariante FOREIGN KEY (idVariante) REFERENCES variantes(idVariante)
 );
 
--- para etsa tabla manejar: pendiente, enviado, entregado
-CREATE TABLE VENTA (
+-- para esta tabla manejar: creada, pagada, cancelda
+CREATE TABLE venta (
     idVenta INT PRIMARY KEY AUTO_INCREMENT,
     fechaVenta DATETIME NOT NULL,
     idCliente INT NOT NULL,
-    estadoEnvio VARCHAR(50) NOT NULL, 
+    estadoVenta ENUM('Creada','Pagada','Cancelada') default	 "creada",
+    estadoEnvio ENUM("Pendiente", "Enviado"), 
     
    
     CONSTRAINT fk_VentaCliente FOREIGN KEY (idCliente) REFERENCES clientes(idCliente)
@@ -62,8 +62,8 @@ CREATE TABLE variante_venta (
     idVenta INT NOT NULL,
     idVariante INT NOT NULL,
     unidades INT NOT NULL CHECK (unidades > 0),
-    precioVenta DECIMAL(10, 2) NOT NULL,
-    
+    precioVenta decimal(10,2),
+        
     PRIMARY KEY (idVenta, idVariante), -- PK COMPUESTA
     
     
@@ -71,18 +71,33 @@ CREATE TABLE variante_venta (
     CONSTRAINT fk_VentaVar FOREIGN KEY (idVariante) REFERENCES variantes(idVariante)
 );
 
+
+
 -- poner estos valores en los pagos: 'Aprobado', 'Rechazado'
 	CREATE TABLE pagos (
 		idPago INT PRIMARY KEY AUTO_INCREMENT,
 		idVenta INT NOT NULL,
 		monto DECIMAL(10, 2) NOT NULL,
 		metodoPago VARCHAR(50) NOT NULL,
-		estadoTransaccion VARCHAR(50) NOT NULL, 
+		estadoTransaccion ENUM("Aprobada", "Rechazada"), 
 		idTransaccionPasarela VARCHAR(100), -- este los traemos del MERCADOPAGO
 		
 	   
 		CONSTRAINT fk_PagosVenta FOREIGN KEY (idVenta) REFERENCES venta(idVenta)
 	);
+    
+    -- se crea esta tabla para hacer auditorrias del stock, con triggers
+    
+    CREATE TABLE auditoria_inventario (
+    idAuditoria INT AUTO_INCREMENT PRIMARY KEY,
+    idVariante INT NOT NULL,
+    tipoMovimiento ENUM('venta','devolucion','ajuste','ingreso') NOT NULL,
+    cantidad INT NOT NULL,
+    stockAntes INT NOT NULL,
+    stockDespues INT NOT NULL,
+    referencia VARCHAR(100),
+    fechaMovimiento DATETIME DEFAULT NOW()
+);
 
 
 

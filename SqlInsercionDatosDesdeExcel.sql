@@ -9,3 +9,5 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
+-- revisamos la lsiat nueva
+select * from clientes;

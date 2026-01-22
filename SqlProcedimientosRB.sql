@@ -1,7 +1,7 @@
 use rambed_ecommerce;
 
 DELIMITER $$
--- creamos el procedure para el registor de ventas
+-- creamos el procedure para el registro de ventas
 
 CREATE PROCEDURE sp_registrar_venta(
     IN p_fecha DATETIME,
@@ -9,13 +9,23 @@ CREATE PROCEDURE sp_registrar_venta(
     IN p_estadoEnvio VARCHAR(50)
 )
 BEGIN
+	-- este v_idVenta lo vamos a usar luego en una vista para mostrar una vista completa de la venta
+	DECLARE v_idVenta INT;
+	    
+    START transaction;
+    
     INSERT INTO venta (fechaVenta, idCliente, estadoEnvio)
     VALUES (p_fecha, p_idCliente, p_estadoEnvio);
+    
+	-- aca gaurdamos los datos del idventa para usalro en una vista
+    SELECT v_idVenta as idVenta; 
+    
+          
 END$$
 
 DELIMITER ;
 
--- usamos el procedure con un call, priemro buscamos un cleint registrado, luego usamos le procedure
+-- usamos el procedure con un call, primero buscamos un cliente registrado, luego usamos le procedure
 
 select * from clientes;
 
@@ -35,11 +45,52 @@ CREATE PROCEDURE sp_agregar_detalle_venta(
     IN p_idVenta INT,
     IN p_idVariante INT,
     IN p_unidades INT,
-    IN p_precio DECIMAL(10,2)
+    IN p_precioVenta DECIMAL(10,2)
 )
 BEGIN
+
+	DECLARE v_stockActual INT;
+    
+    START TRANSACTION;
+     -- consultamos el stock
+    SELECT cantidadStock
+    INTO v_stockActual
+    FROM inventario
+    WHERE idVariante = p_idVariante
+    FOR UPDATE;
+    
+     -- Validamos stock
+    IF v_stockActual < p_unidades THEN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Stock insuficiente para esta variante';
+    END IF;
+    
     INSERT INTO variante_venta (idVenta, idVariante, unidades, precioVenta)
-    VALUES (p_idVenta, p_idVariante, p_unidades, p_precio);
+    VALUES (p_idVenta, p_idVariante, p_unidades, p_precioVenta);
+   
+   --  Descontamos el inventario las unidades
+    UPDATE inventario
+    SET cantidadStock = cantidadStock - p_unidades
+    WHERE idVariante = p_idVariante;
+    
+    -- llenamos el libro de la auditoria
+    
+    INSERT INTO auditoria_inventario (
+    idVariante, tipoMovimiento, cantidad,
+    stockAntes, stockDespues, referencia
+	)
+	VALUES (
+		p_idVariante,
+		'venta',
+		p_unidades,
+		v_stockActual,
+		v_stockActual - p_unidades,
+		CONCAT('Venta ID ', p_idVenta)
+	);
+
+    COMMIT;
+    
 END$$
 
 DELIMITER ;

@@ -51,3 +51,15 @@ JOIN referencias ON variantes.idReferencia = referencias.idReferencia
 GROUP BY referencias.nombreReferencia;
 
 SELECT * FROM productos_mas_vendidos;
+
+-- vista para mirar la venta relaizada luego del usar el procedimiento del stock actualizado
+
+CREATE VIEW vista_total_venta AS
+SELECT 
+    v.idVenta,
+    SUM(vv.unidades * vv.precioVenta) AS totalVenta
+FROM venta v
+JOIN variante_venta vv ON v.idVenta = vv.idVenta
+GROUP BY v.idVenta;
+
+SELECT * FROM vista_total_venta;

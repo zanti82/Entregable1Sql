@@ -1,0 +1,12 @@
+idVenta;fechaVenta;idCliente;nombreCliente;estadoEnvio
+1;5/10/2024 10:15;1023456789;Juan Pérez;Enviado
+4;3/11/2024 14:20;1023456789;Juan Pérez;Enviado
+7;2/12/2024 12:30;1023456789;Juan Pérez;Enviado
+10;27/12/2024 10:00;1023456789;Juan Pérez;Enviado
+2;12/10/2024 16:40;1034567890;María Gómez;Enviado
+5;10/11/2024 9:50;1034567890;María Gómez;Enviado
+8;9/12/2024 15:45;1034567890;María Gómez;Enviado
+3;20/10/2024 11:05;1045678901;Carlos Rodríguez;Enviado
+6;22/11/2024 18:10;1045678901;Carlos Rodríguez;Enviado
+9;18/12/2024 17:25;1045678901;Carlos Rodríguez;Enviado
+11;22/01/2026 0:00;1090123456;Natalia Herrera;Pendiente

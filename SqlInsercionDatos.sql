@@ -25,13 +25,13 @@ INSERT INTO tallas (nombreTalla) VALUES
 --  revisamos tablas
 select * from tallas;
 
-INSERT INTO referencias (idReferencia, nombreReferencia, estiloReferencia, precioReferencia) VALUES
-(2501, 'Jean Clásico Azul', 'Clásico', 85000),
-(2502, 'Jean Slim Oscuro', 'Slim', 92000),
-(2503, 'Jean Cargo Urbano', 'Cargo', 110000),
-(2504, 'Jean Skinny Negro', 'Skinny', 80000),
-(2505, 'Jean Regular Stone', 'Regular', 98000),
-(2506, 'Jean Oversize Claro', 'Oversize', 105000);
+INSERT INTO referencias (idReferencia, nombreReferencia, estiloReferencia) VALUES
+(2501, 'Jean Clásico Azul', 'Clásico'),
+(2502, 'Jean Slim Oscuro', 'Slim'),
+(2503, 'Jean Cargo Urbano', 'Cargo'),
+(2504, 'Jean Skinny Negro', 'Skinny'),
+(2505, 'Jean Regular Stone', 'Regular'),
+(2506, 'Jean Oversize Claro', 'Oversize');
 
 --  revisamos ref
 select * from referencias;
@@ -124,24 +124,29 @@ INSERT INTO inventario (idVariante, cantidadStock) VALUES
 (23, 2),
 (24, 4);
 
--- generamos 10 ventas para luego estudiarlas
+-- generamos 10 ventas para luego estudiarlas, estas son exitosas
+-- luego anexamos los triggers y validaciones para crear mas ventas
+select * from inventario;
 
-INSERT INTO venta (fechaVenta, idCliente, estadoEnvio) VALUES
-('2024-10-05 10:15:00', 1023456789, 'enviado'),
-('2024-10-12 16:40:00', 1034567890, 'entregado'),
-('2024-10-20 11:05:00', 1045678901, 'enviado'),
+INSERT INTO venta (fechaVenta, idCliente, estadoVenta, estadoEnvio) VALUES
+('2024-10-05 10:15:00', 1023456789, 'Pagada', 'Enviado'),
+('2024-10-12 16:40:00', 1034567890, 'Pagada', 'Enviado'),
+('2024-10-20 11:05:00', 1045678901, 'Pagada', 'Enviado'),
 
-('2024-11-03 14:20:00', 1023456789, 'entregado'),
-('2024-11-10 09:50:00', 1034567890, 'enviado'),
-('2024-11-22 18:10:00', 1045678901, 'entregado'),
+('2024-11-03 14:20:00', 1023456789,'Pagada', 'Enviado'),
+('2024-11-10 09:50:00', 1034567890, 'Pagada', 'Enviado'),
+('2024-11-22 18:10:00', 1045678901,'Pagada', 'Enviado'),
 
-('2024-12-02 12:30:00', 1023456789, 'enviado'),
-('2024-12-09 15:45:00', 1034567890, 'entregado'),
-('2024-12-18 17:25:00', 1045678901, 'enviado'),
-('2024-12-27 10:00:00', 1023456789, 'entregado');
+('2024-12-02 12:30:00', 1023456789, 'Pagada', 'Enviado'),
+('2024-12-09 15:45:00', 1034567890,'Pagada', 'Enviado'),
+('2024-12-18 17:25:00', 1045678901, 'Pagada', 'Enviado'),
+('2024-12-27 10:00:00', 1023456789, 'Pagada', 'Enviado');
 
 
 -- asigancion de varinates y unidades a las ventas anteriores
+--  revisamos las ventas
+
+select * from venta;
 
 INSERT INTO variante_venta (idVenta, idVariante, unidades, precioVenta) VALUES
 -- Venta 1
@@ -187,18 +192,20 @@ INSERT INTO variante_venta (idVenta, idVariante, unidades, precioVenta) VALUES
 -- en la siguiente sentencia priemeor se eliminar la columna monto
 -- esta no la neceistamos ya que es un dato calculado.
 
+select * from variante_venta;
+
 ALTER table pagos DROP COLUMN monto;
 
 -- ahora asgignaos el estado de pago de cada transaccion, como todas fueorn exitosas 
 INSERT INTO pagos (idVenta, metodoPago, estadoTransaccion, idTransaccionPasarela) VALUES
-(1, 'tarjeta_credito', 'exitosa', 'MP-TRX-0001'),
-(2, 'tarjeta_debito', 'exitosa', 'MP-TRX-0002'),
-(3, 'efectivo', 'exitosa', 'MP-TRX-0003'),
-(4, 'tarjeta_credito', 'exitosa', 'MP-TRX-0004'),
-(5, 'tarjeta_debito', 'exitosa', 'MP-TRX-0005'),
-(6, 'efectivo', 'exitosa', 'MP-TRX-0006'),
-(7, 'tarjeta_credito', 'exitosa', 'MP-TRX-0007'),
-(8, 'tarjeta_debito', 'exitosa', 'MP-TRX-0008'),
-(9, 'tarjeta_credito', 'exitosa', 'MP-TRX-0009'),
-(10, 'efectivo', 'exitosa', 'MP-TRX-0010');
+(1, 'tarjeta_credito', 'Aprobada', 'MP-TRX-0001'),
+(2, 'tarjeta_debito', 'Aprobada', 'MP-TRX-0002'),
+(3, 'efectivo', 'Aprobada', 'MP-TRX-0003'),
+(4, 'tarjeta_credito', 'Aprobada', 'MP-TRX-0004'),
+(5, 'tarjeta_debito', 'Aprobada', 'MP-TRX-0005'),
+(6, 'efectivo', 'Aprobada', 'MP-TRX-0006'),
+(7, 'tarjeta_credito', 'Aprobada', 'MP-TRX-0007'),
+(8, 'tarjeta_debito', 'Aprobada', 'MP-TRX-0008'),
+(9, 'tarjeta_credito', 'Aprobada', 'MP-TRX-0009'),
+(10, 'efectivo', 'Aprobada', 'MP-TRX-0010');
 
